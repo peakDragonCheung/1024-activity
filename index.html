@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIC 产品设计中心 UED前端部门 1024 游戏 心有灵犀</title>
+    <style>
+        body{
+            background-color: rgb(131,175,155);
+            display: flex;
+            margin: 0;
+            padding: 0;
+
+            color: #fff;
+        }
+
+        .random-word__wrap {
+
+            width: 75vw;
+            height: 100vh;
+            text-align: center;
+            line-height: 100vh;
+
+            color: #fff;
+
+            font-size: 17vw;
+        }
+        .operation-btn__wrap {
+            background-color: rgb(200,200, 169);
+            flex: 1;
+            padding: 20px;
+        }
+        .content-wrap {
+            font-size: 30px;
+
+        }
+        .content-wrap + .content-wrap {
+            margin-top: 20px;
+        }
+        .content-wrap > .title {
+            font-size: 30px;
+            font-family: cursive;
+        }
+        .time {
+            font-size: 4vw;
+            text-align: center;
+        }
+
+        .btn-wrap {
+            margin-top: 15px;
+        }
+        .btn {
+            cursor: pointer;
+            border: 0;
+            padding: 10px 20px;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 20px;
+            margin-bottom: 10px;
+
+        }
+        .success {
+            background: #e45456;
+        }
+        .pass {
+            background-color: rgb(131,175,155);
+        }
+        .reset {
+            background-color: #FCD200;
+        }
+        .start {
+            background-color: #CC6633;
+
+        }
+        .point {
+            text-align: center;
+            font-size: 6vw;
+        }
+        .words-array__wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .group-word {
+            margin-right: 20px;
+            cursor: pointer;
+            font-size: 36px;
+        }
+        .show-point {
+
+        }
+    </style>
+</head>
+<body>
+    <div class="random-word__wrap J-word">
+        开始
+    </div>
+    <div class="operation-btn__wrap">
+         <div class="content-wrap">
+             <span class="title">倒计时：</span>
+             <div class="time J-time">
+                 05:00
+             </div>
+         </div>
+         <div class="content-wrap">
+            <span class="title">操作区域：</span>
+            <div class="btn-wrap">
+                <button class="btn success J-success-btn">答对-下一个</button>
+                <button class="btn pass J-pass-btn">换词</button>
+                <button class="btn reset J-reset-btn">重置</button>
+                <button class="btn start J-start-btn">开始</button>
+                <button class="btn show-point J-show-point-btn">显示分数</button>
+
+            </div>
+        </div>
+        <div class="content-wrap">
+            <span class="title">分值：</span>
+            <div class="point J-point">
+                0
+            </div>
+        </div>
+
+        <div class="content-wrap">
+            <span class="title">待选择的词：</span>
+            <div class="words-array__wrap J-words-array-wrap">
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+const a = '灰尘、显示屏、鼠标、书本、袜子、熨斗、衣架、楼梯、衣柜、鞋架、勺子、电动车、股票、书桌、小蜜蜂、打扫、小米、安卓、澳门、蹦极、狼吞虎咽、吃喝玩乐、遥控器、寄生虫、三只手、如虎添翼、帝王蟹、不三不四、一长一短、打草惊蛇';
+const e = `洗脸、足球、饭盆、上网、逛街、袋鼠、喝酒、开车、摇头晃脑、痛哭流涕、黑猫警长、红楼梦、赵本山、听音乐、挤眉弄眼、金针菇、王力宏、悲喜交集、提心吊胆、茶叶、橡皮、音响、镜子、挤公交、刮目相看、理发师、面粉、结婚证、走马观花、虎视眈眈`;
+const f = `摩托车、邮递员、拍照、目不转睛、篮球、杯子、散步、舔狗、骑自行车、抓耳挠腮、捧腹大笑、霍元甲、水浒传、周杰伦、旅游、流鼻血、打电话、心神不定、吃饭、哪吒、猫和老鼠、打火机、盲人摸象、温度计、电视机、放风筝、看书、唱歌、飞机、楼主`;
+const g = `筷子、乒乓球、钓鱼、猪、聊天、手舞足蹈、东张西望、窃窃私语、奥特曼、鸡犬不宁、打字、看电影、火车、监狱、号啕大哭、外星人、闻鸡起舞、洗澡、土豆、看电视、掩耳盗铃、法海、悬梁刺股、呆若木鸡、内裤、公鸡、剪指甲、臭豆腐、烧烤、辣椒`;
+const h = `老板、划船、电脑、猴子、手机、蜡烛、腐乳、魔术、香水、烧饼、牛奶、空调、男朋友、皮影、铅笔、变量、狼吞虎咽、铁扇公主、抱头鼠窜、口红、超市、自行车、亡羊补牢、大米、对牛弹琴、鸟语花香、布娃娃、蜡烛、画蛇添足、香水`;
+const i = `单杠、猪八戒、游泳、白日梦、射箭、李小龙、击剑、射击、孔明、龙虾、羽毛球、滑雪、耳机、孙悟空、眼高手低、目瞪口呆、举重、头破血流、蜻蜓点水、跆拳道、左顾右盼、摔交、东倒西歪、棒球、一举两得、拳击、五湖四海、九牛一毛、十全十美、比翼鸟`;
+const j = `拔河、马拉松、春卷、柿饼、沙琪玛、武术、年终奖、凉皮、选择器、油条、水饺、笑面虎、伪君子、打麻将、牛鼻子、纸老虎、口头禅、拍马屁、癞蛤蟆、老掉牙、无穷无尽、秃头、青山绿水、呼啦圈、马到成功、见缝插针、一泻千里、勃然大怒、火冒三丈、张牙舞爪`;
+const k = `馒头、饭团、拖鞋、刷牙、眼镜、蝴蝶、沙发、拖鞋、铁公鸡、桃花运、咸鸭蛋、如来神掌、乌纱帽、回马枪、稀饭、落水狗、坐井观天、皮蛋、眉飞色舞、刀削面、金鸡独立、豆浆、行尸走肉、刘德华、被子、倾盆大雨、枪林弹雨、枕头、齐天大圣、骨瘦如柴`;
+const l = `脸盆、蛇、傻狗、点心、老鼠、长颈鹿、矿泉水、面条、仙人掌、输入法、苹果电脑、电磁炉、一箭双雕、丑八怪、擎天柱、纸巾、火烧眉毛、蝌蚪、鸟语花香、点心、东山再起、尿布、白手起家、香蕉、取长补短、助人为乐、母鸡、清一色、炎黄子孙、饮水机`;
+const m = `牛奶、瓜子、玉米、榴莲、奥利给、手机、电脑、电风扇、吹风机、洗衣机、手电筒、书呆子、老古董、连理枝、顺口溜、蛋炒饭、空城计、九华山、铁饭碗、鸡蛋、垂头丧气、三顾茅庐、电风扇、暗渡陈仓、电冰箱、惊弓之鸟、葡萄、冰淇淋、青花瓷、挤地铁`;
+const o = `麦通、季度奖、臭豆腐、保温杯、插线板、日光灯、女朋友、尤雨溪、麻雀、健步如飞、小爱音箱、背包、太阳镜、减肥操、马里奥、爱马仕、南京、菊花、玉皇大帝、程序员、结婚、篮球、一石二鸟、撒尿、常量、柔道、螃蟹、掌中宝、眼镜蛇、牛郎织女`;
+const Words = [a,e,f,g,h,i,j,k,l,m,o];
+
+let currentWords = a.split('、');
+let currentIndex = 0;
+let timer = null;
+function showWord(word) {
+    const wordWrapDom = document.querySelector('.J-word');
+    wordWrapDom.innerHTML = word;
+}
+
+function nextWord(word) {
+    showWord(word);
+}   
+
+function successNext() {
+    const word = currentWords[currentIndex++];
+    if(!word) {
+        nextWord('结束');
+        return
+    }
+    const pointDom = document.querySelector('.J-point');
+    let point = document.querySelector('.J-point').innerHTML;
+    point = +point + 1;
+    pointDom.innerHTML = point;
+    nextWord(word);
+}
+
+function passNext() {
+    const word = currentWords[currentIndex++];
+    if(!word) {
+        nextWord('结束');
+        return
+    }
+    nextWord(word)
+}
+function renderWordGroup(index) {
+    const html = `<span class="group-word" data-index="${index}">${index}</span>`;
+    return html;
+}
+
+function renderAllWordGroup() {
+    const htmls = Words.map((item, index) => {
+        return renderWordGroup(index);
+    });
+    const wordArrayWrapDom = document.querySelector('.J-words-array-wrap');
+    wordArrayWrapDom.innerHTML = htmls.join('');
+
+    wordArrayWrapDom.addEventListener('click',(e) => {
+        const targetDom = e.target;
+        const index = +targetDom.getAttribute('data-index');
+        currentIndex = 0;
+        currentWords = Words[index].split('、');
+        alert('当前词组为' + index);
+        wordArrayWrapDom.removeChild(targetDom);
+    })
+}
+function init() {
+    document.querySelector('.J-success-btn').addEventListener('click', successNext);
+    document.querySelector('.J-pass-btn').addEventListener('click', passNext);
+    document.querySelector('.J-reset-btn').addEventListener('click', reset);
+    document.querySelector('.J-start-btn').addEventListener('click', start);
+    document.querySelector('.J-show-point-btn').addEventListener('click', () => {changeShowPoint()});
+
+    
+    renderAllWordGroup();
+}
+function changeShowPoint(flag) {
+    const pointDom = document.querySelector('.J-point');
+    if(flag) {
+        pointDom.style.visibility = 'hidden';
+        return;
+    }
+    if(pointDom.style.visibility === 'hidden') {
+        pointDom.style.visibility = 'visible';
+    } else {
+        pointDom.style.visibility = 'hidden';
+    }
+
+}
+function formateTime(sTime) {
+    const min = parseInt(sTime / 60);
+    const sec = sTime % 60;
+    return `0${min}:${sec < 10?'0' + sec: sec}`;
+}
+
+function countDownTime() {
+    let time = 60 * 5;
+    const timeDom = document.querySelector('.J-time');
+    timer = setInterval(() => {
+        timeDom.innerHTML = formateTime(--time);
+        if(time <= 0) {
+            clearInterval(timer);
+        }
+    }, 1000)
+}
+
+function reset() {
+    currentIndex = 0;
+    const pointDom = document.querySelector('.J-point');
+    pointDom.innerHTML = 0;
+    const timeDom = document.querySelector('.J-time');
+    timeDom.innerHTML = '05:00';
+    clearInterval(timer);
+
+    showWord('开始');
+}
+
+function start() {
+    clearInterval(timer);
+    countDownTime();
+    passNext();
+    changeShowPoint(true)
+}
+
+init();
+
+</script>
+
+</html>
